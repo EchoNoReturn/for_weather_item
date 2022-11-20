@@ -1,0 +1,9 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+#app>#text1 {
+  width: 200px;
+  height: 40px;
+  text-size-adjust: 16px rgb(65, 65, 65);
+}

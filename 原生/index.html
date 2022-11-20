@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>城市天气预报</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/tqyb_icon.png">
+    <link rel="stylesheet" href="img/font_3772927_g0l2i2eqyfw/iconfont.css">
+</head>
+
+<body>
+
+    <div id="app">
+        <h1>城市天气预报简易逻辑实现</h1>
+        <input type="text" name="city" id="text1" placeholder="请输入城市名称，例如“南昌”">
+        <input type="button" value="查 询" onclick="search()">
+        <span class=""></span>
+        <p class="city">南昌</p>
+        <p class="wendu">26℃</p>
+        <span class="iconfont .icon-tianqi-qing"></span>
+    </div>
+    
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.open('get','http://wthrcdn.etouch.cn/weather_mini?city=南昌',true)
+        xhr.onreadystatechange() = () => {}
+    </script>
+    <script src="js/vue.js"></script>
+    <script upset>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                city: '南昌',
+                weather: '晴',
+                wendu: 30
+            },
+            methods: {
+                search() {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('get','http://wthrcdn.etouch.cn/weather_mini?city='+this.city,true);
+                    xhr.onreadystatechange = () => {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            
+                            console.log(xhr.responseText);
+                        } 
+                    }
+                    xhr.send();
+                } 
+            }
+        })
+    </script>
+</body>
+
+</html>

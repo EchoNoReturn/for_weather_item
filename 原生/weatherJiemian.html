@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+  <!-- <link rel="stylesheet" href="img/download/font_vccd5j388qr/iconfont.css"> -->
+	<style>
+		*{
+			margin: 0;
+      padding: 0;
+		}
+    p{
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      color: #fff;
+    }
+    /* 以上为通用样式 */
+    
+    /* 大底 */
+    .box{
+      position: absolute;
+      width: 100%;
+      height: auto;
+      /* background-color: aquamarine; */
+      margin-top: 0%;
+    }
+    
+    /* 天气背景 */
+    .box>.bg{
+      width: 95%;
+      height: auto;
+      background-image: linear-gradient(#9496e0, #3cc1e5);// 后续改成天气图片作为背景
+      border:solid 1px #ff0000;
+      padding-bottom: 7rem;
+      border-radius: 1rem;
+      margin: 5px auto;
+      position: relative;
+      box-shadow: 8px 6px rgb(75, 75, 75, 0.5);
+      backdrop-filter: blur(5px);
+      position: relative;
+    }
+    /* 头部 */
+    .city {
+      height: 40px;
+      width: auto;
+      font-size: 1.25rem;
+      color: aliceblue;
+      display: flex;
+      justify-content: flex-start;
+      position: absolute;
+      top: 1.25rem;
+      left: 1.25rem;
+    }
+    .city::after{
+      content: "";
+      width: 0;
+      height: 0;
+      border-right: 7px solid transparent;
+      border-top: 7px solid #ebebeb;
+      border-left: 7px solid transparent;
+      margin: 0.4rem 0.15rem;
+    }
+    /* 天气详情 */
+    .bg>.wendu{
+      color: aliceblue;
+      font: icon;
+      font-size: 3rem;
+      font-weight: 100;
+      width: 100%;
+      padding: 6rem 0 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .bg>.wendu>span{
+      position: absolute;
+      top: 6rem;
+    }
+    
+    .tqms{
+      width: 100%;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+    }
+    .tqms>h4,.tqms>span{
+      color: aliceblue;
+      margin: 0 0.1rem;
+      font-size: 1.1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      display: inline-block;
+    }
+    .description{
+      padding: 10px;
+      /* width: 70%; */
+      height: 1rem;
+      line-height: 1.5rem;
+      font-size: 1rem;
+      margin: 10px 0;
+      /* overflow: hidden; */
+      /* display: inline-block; */
+    }
+    
+    .fuetrue{
+      width: auto;
+      height: 84px;
+      float: left;
+      justify-content: center;
+      scroll-behavior: smooth;
+    }
+    .fuetrue>ul{
+      flex-shrink: 0;
+      position: absolute;
+      overflow: auto;
+      max-width: 100%;
+      display: inline-flex;
+    }
+    .weather_list{
+      width: 6.25rem;
+      list-style: none;
+      color: aliceblue;
+      font-size: 1rem;
+      text-align: center;
+      display: inline-block;
+      margin: 0 4px;
+    }
+	</style>
+</head>
+<body>
+	<div class="box">
+    <div class="bg">
+      <head>
+        <p class="city">南昌</p>
+        <!-- <div class="leftjiantou"></div> -->
+        <!-- <span class="iconfont icon-zuojiantou" style="color: aliceblue;"></span> -->
+      </head>
+      <!-- 天气内容 -->
+      <h1 class="wendu">23<span style="font-size: 1.5rem;">℃</span></h1>
+      <div class="tqms">
+        <h4 class="weather">多云</h4>
+        <span>|</span>
+        <h4 class="windy">北风3级</h4>
+      </div>
+      <!-- 天气情况说明 -->
+      <p class="description">今天：阴转多云 14至20℃ 北风4-5级</p>
+      <div id="container" style="height: 15rem"></div>
+
+      <!-- 未来几天天气预报 -->
+     <!-- <div class="fuetrue" style="height: 10rem;"> -->
+     <!-- </div> -->
+      
+      <div class="fuetrue">
+        <!--这里放置真实显示的DOM内容-->
+        <ul>
+          <li class="weather_list">
+           <div>今天</div>
+           <div><img src="img/tqyb_icon.png" alt="" width="18rem" height="18rem"></div>
+           <div>晴</div>
+           <div>14~23℃</div>
+          </li>
+          <li class="weather_list">
+           <div>今天</div>
+           <div><img src="img/tqyb_icon.png" alt="" width="18rem" height="18rem"></div>
+           <div>晴</div>
+           <div>14~23℃</div>
+          </li>
+          <li class="weather_list">
+           <div>今天</div>
+           <div><img src="img/tqyb_icon.png" alt="" width="18rem" height="18rem"></div>
+           <div>晴</div>
+           <div>14~23℃</div>
+          </li>
+          <li class="weather_list">
+           <div>今天</div>
+           <div><img src="img/tqyb_icon.png" alt="" width="18rem" height="18rem"></div>
+           <div>晴</div>
+           <div>14~23℃</div>
+          </li>
+          <li class="weather_list">
+           <div>今天</div>
+           <div><img src="img/tqyb_icon.png" alt="" width="18rem" height="18rem"></div>
+           <div>晴</div>
+           <div>14~23℃</div>
+          </li>
+          <li class="weather_list">
+           <div>今天</div>
+           <div><img src="img/tqyb_icon.png" alt="" width="18rem" height="18rem"></div>
+           <div>晴</div>
+           <div>14~23℃</div>
+          </li>
+          <li class="weather_list">
+           <div>今天</div>
+           <div><img src="img/tqyb_icon.png" alt="" width="18rem" height="18rem"></div>
+           <div>晴</div>
+           <div>14~23℃</div>
+          </li>
+          <li class="weather_list">
+           <div>今天</div>
+           <div><img src="img/tqyb_icon.png" alt="" width="18rem" height="18rem"></div>
+           <div>晴</div>
+           <div>14~23℃</div>
+          </li>
+        </ul>       
+      </div>
+      <!-- 出行推荐 -->
+      
+    </div>
+	</div>
+	
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+	<script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    
+    var option;
+
+    option = {
+      xAxis: {
+        type: 'category',
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      },
+      yAxis: {
+        type: 'value',
+        max: '50',
+        min: '-10'
+      },
+      grid: {
+        top: '2%',
+        left: '2%',
+        right: '2%',
+        bottom: '10%',
+        containLabel: true
+      },
+      series: [
+        {
+          name: 'high',
+          data: [15, 20, 24, 21, 15, 17, 26],
+          type: 'line'
+        },
+       {
+         name: 'low',
+         data: [9, 9, 9, 9, 9, 9, 9],
+         type: 'line',
+       }
+      ]
+    };
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+	  </script>
+</body>
+</html>

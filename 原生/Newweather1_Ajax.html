@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>天气预报</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		h1 {
+			background-color: orange;
+			font-size: 40px;
+			text-align: center;
+		}
+		input {
+			width: 500px;
+			height: 40px;
+			margin-top: 10px;
+		}
+		button {
+			width: 100px;
+			height: 40px;
+			margin-left: 20px;
+			font-size: 20px;
+		}
+		.box {
+			height: auto;
+			width: 100%;
+			background-color: #f6ffd3;
+		}
+	</style>
+</head>
+<body>
+	<h1>城市天气预报查询</h1>
+	<input type="text" name="" id="">
+	<button>查询</button>
+	<!-- 展示出来的效果 -->
+	<div class="box">
+		<h3>查询的城市是：</h3>
+		<p class="nowtime">更新的时间是：</p>
+		<p class="wendu">现在的温度是：</p>
+		<p class="high">最高温度为：</p>
+		<p class="low">最低温度为：</p>
+	</div>
+	
+	<script type="text/javascript">
+		var btn = document.querySelector("button");
+		var txt = document.querySelector("input");
+		
+		// button点击事件
+		btn.onclick = () => {
+			var val = txt.value;
+			// 发送Ajax
+			var xhr = new XMLHttpRequest();
+			xhr.open('get','http://wthrcdn.etouch.cn/weather_mini?city=' + val,true);
+			xhr.onreadystatechange = function(){
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var data = JSON.parse(xhr.responseText).data;
+					// console.log(JSON.parse(xhr.responseText))
+					console.log(data)
+					
+					//修改城市信息
+					document.querySelector('h3').innerHTML = '查询的城市是：' + data.city
+					// 更新当前时间
+					document.querySelector(".nowtime").innerHTML = '更新的时间是：'+ new Date()
+					document.querySelector('.wendu').innerHTML = '现在的温度是：' + data.wendu
+					document.querySelector(".high").innerHTML = data.forecast[0].high
+					document.querySelector(".low").innerHTML = data.forecast[0].low
+					
+				}
+			}
+			xhr.send()
+		}
+	</script>
+</body>
+</html>
