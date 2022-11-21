@@ -256,6 +256,9 @@ export default {
       }).then(res=>{
         console.log('通过id查询到天气信息')
         console.log(res)
+        this.wendu = res.data.now.temp
+        this.weather = res.data.now.text
+        this.windy = res.data.now.windDir + res.data.now.windScale + '级'
       }).catch(err => console.log(err))
     },
     seach(){
