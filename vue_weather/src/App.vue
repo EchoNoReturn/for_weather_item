@@ -23,6 +23,13 @@
       <!-- <div class="leftjiantou"></div> -->
       <!-- <span class="iconfont icon-zuojiantou" style="color: aliceblue;"></span> -->
       <!-- 天气内容 -->
+      <h3>{{city}}</h3>
+      <weather-img 
+        :url="weatherIcon"
+        class="weather_icon"
+        alt="Weather"
+        width="40rem"
+        height="40rem"></weather-img>
       <h1 class="wendu">
         {{ wendu }}<span style="font-size: 1.5rem;">℃</span>
       </h1>
@@ -53,11 +60,11 @@
                 width="18rem"
                 height="18rem"
               /> -->
-              <weather-img :url="item.icon" 
+              <weather-img 
+                :url="item.icon"
                 alt="Weather"
                 width="18rem"
                 height="18rem"></weather-img>
-            
             <div>{{ item.weather }}</div>
             <div>{{ item.tem }}</div>
           </li>
@@ -83,6 +90,7 @@ export default {
       cityId: "",
       wendu: "23",
       weather: "晴",
+      weatherIcon: "100",
       windy: "北风4~5级",
       high: "20",
       low: "14",
@@ -218,7 +226,7 @@ export default {
           console.log("时", res);
           const hourly = res.data.hourly;
           const temp = hourly.map(item => Number(item.temp));
-          const fxTime = hourly.map(item => item.fxTime);
+          const fxTime = hourly.map(item => item.fxTime.slice(11,16));
           this.option.series.data = temp;
           this.option.xAxis.data = fxTime;
           this.option.yAxis.max = Math.max(hourly); // 获取温度的最大值
@@ -252,6 +260,7 @@ export default {
           // const max = daily.map(item => item.tempMax)
           // const min = daily.map(item => item.tempMin)
           this.wendu = daily.temp
+          this.weatherIcon = daily.icon
           this.weather = daily.text
           this.windy = daily.windDir + daily.windScale + '级'
         })
@@ -270,12 +279,12 @@ export default {
         .then(res => {
           console.log("周", res);
           // 七天数据
-          const dList = res.data.daily 
+          let dList = res.data.daily 
           for (let i in dList) {
-            this.weatherList[i].date = dList[i].fxDate
-            this.weatherList[i].weather = dList[i].textday
+            this.weatherList[i].date = dList[i].fxDate.slice(8,)+"日"
+            this.weatherList[i].weather = dList[i].textDay
             this.weatherList[i].icon = dList[i].iconDay
-            this.weatherList[i].tem = dList[i].tempMax + "~" + dList[i].tempMin + "度"
+            this.weatherList[i].tem = dList[i].tempMax + "~" + dList[i].tempMin + "°"
             this.description = this.city + '今天：' + this.weather + this.wendu + "℃，" + this.windy + '。'
           }
           // tempMax

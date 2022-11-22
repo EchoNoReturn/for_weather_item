@@ -9,6 +9,11 @@ p {
   color: #fff;
 }
 
+h3 {
+  text-align: center;
+  color: #fff;
+  margin-top: 10px;
+}
 /* 以上为通用样式 */
 
 /* 大底 */
@@ -65,14 +70,18 @@ p {
   font-size: 3rem;
   font-weight: 100;
   width: 100%;
-  padding: 6rem 0 2rem;
+  padding: 2rem 0 2rem;
   text-align: center;
   position: relative;
 }
-
+.bg>.weather_icon{
+  width: 100%;
+  color: #fff;
+  margin-top: 2rem;
+}
 .bg > .wendu > span {
   position: absolute;
-  top: 6rem;
+  top: 2rem;
 }
 
 .tqms {
@@ -126,21 +135,22 @@ p {
   font-size: 1rem;
   text-align: center;
   display: inline-block;
-  margin: 0 4px;
+  margin: 0 8px;
 }
 
 
 .box>.bg>.seachbox{
-  width: 100%;
+  width: 80%;
   height: 2.5rem;
   background-color: linear-gradient(
     #3cc1e5,
     #9496e0
   );
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
+  margin: 0 auto;
   padding-top: 1rem;
-  margin-right: .375rem;
+  /* margin-right: .375rem; */
 }
 .box>.bg>.seachbox>.city {
   height: 100%;
