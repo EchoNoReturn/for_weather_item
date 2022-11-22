@@ -1,16 +1,8 @@
 <template>
   <div class="box">
     <div class="bg">
+      <!-- 查询部分 -->
       <div class="seachbox">
-        <!-- <el-select v-model="value" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          >
-          </el-option>
-        </el-select> -->
         <el-input
           placeholder="请输入城市名称"
           v-model="input"
@@ -36,7 +28,7 @@
         <span>|</span>
         <h4 class="windy">{{ windy }}</h4>
       </div>
-      <!-- 天气情况说明,后面还可以改成各种指数建议 -->
+      <!-- 天气情况说明,后面还可以添加各种指数建议 -->
       <p class="description">{{ description }}</p>
       
         <!-- echarts图表 -->
@@ -61,8 +53,7 @@
 </template>
 
 <script>
-import {getCityId,getWList,getWTimeInfo,getWWeekInfo} from '@/api/index'
-// import axios from "axios";
+import { getCityId, getWList, getWTimeInfo, getWWeekInfo } from '@/api/index'
 import WeatherImag from "./components/WeatherImg.vue"
 import WeatherImg from './components/WeatherImg.vue';
 
@@ -153,7 +144,6 @@ export default {
           }
         ]
       }
-      // key:'787f3f931d0c462e86d189aab70510a1'
     };
   },
   mounted() {
@@ -169,14 +159,6 @@ export default {
   methods: {
     // 城市id
     getCityIdByName(city) {
-      // axios
-      //   .get('https://geoapi.qweather.com/v2/city/lookup', {
-      //     params: {
-      //       key: "787f3f931d0c462e86d189aab70510a1",
-      //       location: city
-      //     },
-      //     headers: {}
-      //   })
       getCityId(city)
         .then(res => {
           // console.log(">>>>res", res);
@@ -192,15 +174,6 @@ export default {
     },
     // 时：天气信息 https://api.qweather.com/v7/weather/24h
     getWeatherTimeInfo(id) {
-      // console.log("已收到ID：" + id + "正在查询天气");
-      // axios
-      //   .get("https://devapi.qweather.com/v7/weather/24h", {
-      //     params: {
-      //       key: "787f3f931d0c462e86d189aab70510a1",
-      //       location: id
-      //     },
-      //     headers: {}
-      //   })
       getWTimeInfo(id)
         .then(res => {
           console.log("时", res);
@@ -219,23 +192,11 @@ export default {
           this.$nextTick(() => {
             this.renderEcharts()
           })
-          // const min = daily.map(item => item.tempMin)
-          // this.wendu = res.data.now.temp
-          // this.weather = res.data.now.text
-          // this.windy = res.data.now.windDir + res.data.now.windScale + '级'
         })
         .catch(err => console.log(err));
     },
     // 日：天气信息
     getWeatherDayInfo(id) {
-      // axios
-      //   .get("https://devapi.qweather.com/v7/weather/now", {
-      //     params: {
-      //       key: "787f3f931d0c462e86d189aab70510a1",
-      //       location: id
-      //     },
-      //     headers: {}
-      //   })
       getWList(id)
         .then(res => {
           console.log("日", res);
@@ -250,14 +211,6 @@ export default {
     },
     // 周：天气信息
     getWeatherWeekInfo(id) {
-      // axios
-      //   .get("https://devapi.qweather.com/v7/weather/7d", {
-      //     params: {
-      //       key: "787f3f931d0c462e86d189aab70510a1",
-      //       location: id
-      //     },
-      //     headers: {}
-      //   })
       getWWeekInfo(id)
         .then(res => {
           // console.log("周", res);
@@ -269,11 +222,6 @@ export default {
             this.weatherList[i].icon = dList[i].iconDay
             this.weatherList[i].tem = dList[i].tempMax + "~" + dList[i].tempMin + "°"
           }
-          // tempMax
-          // tempMin
-          // this.wendu = res.data.now.temp;
-          // this.weather = res.data.now.text;
-          // this.windy = res.data.now.windDir + res.data.now.windScale + "级";
         })
         .catch(err => console.log(err));
     },
