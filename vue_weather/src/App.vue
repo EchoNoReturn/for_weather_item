@@ -1,282 +1,303 @@
 <template>
   <div class="box">
     <div class="bg">
-        <div class="seachbox">
-          <label class="city">{{city}}</label>
-          <el-input
-            placeholder="请输入城市名称"
-            v-model="input">
-            <i slot="prefix" class="el-input__icon el-icon-search"></i>
-          </el-input>
-          <button type="button" @click="seach">查询</button>
-        </div>
-        <!-- <div class="leftjiantou"></div> -->
-        <!-- <span class="iconfont icon-zuojiantou" style="color: aliceblue;"></span> -->
-        <!-- 天气内容 -->
-        <h1 class="wendu">{{wendu}}<span style="font-size: 1.5rem;">℃</span></h1>
-        <div class="tqms">
-          <h4 class="weather">{{weather}}</h4>
-          <span>|</span>
-          <h4 class="windy">{{windy}}</h4>
-        </div>
-        <!-- 天气情况说明 -->
-        <p class="description">{{description}}</p>
-        <!-- <WeatherNowVue
+      <div class="seachbox">
+        <!-- <el-select v-model="value" placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select> -->
+        <el-input
+          placeholder="请输入城市名称"
+          v-model="input"
+          clearable
+          @change="handleSearch()"
+        >
+          <i slot="prefix" class="el-input__icon el-icon-search"></i>
+        </el-input>
+      </div>
+      <!-- <div class="leftjiantou"></div> -->
+      <!-- <span class="iconfont icon-zuojiantou" style="color: aliceblue;"></span> -->
+      <!-- 天气内容 -->
+      <h1 class="wendu">
+        {{ wendu }}<span style="font-size: 1.5rem;">℃</span>
+      </h1>
+      <div class="tqms">
+        <h4 class="weather">{{ weather }}</h4>
+        <span>|</span>
+        <h4 class="windy">{{ windy }}</h4>
+      </div>
+      <!-- 天气情况说明 -->
+      <p class="description">{{ description }}</p>
+      <!-- <WeatherNowVue
         :weatherList = 'weatherList'
         ></WeatherNowVue> -->
-        <div id="container" style="height: 15rem" ref="container"></div>
+      <div id="container" style="height: 15rem" ref="container"></div>
 
-        <!-- 未来几天天气预报 -->
-        <!-- <div class="fuetrue" style="height: 10rem;"> -->
-        <!-- </div> -->
+      <!-- 未来几天天气预报 -->
+      <!-- <div class="fuetrue" style="height: 10rem;"> -->
+      <!-- </div> -->
 
-        <div class="fuetrue">
-          <ul>
-            <li class="weather_list">
-              <div>今天</div>
-              <div>
-                <img
-                  src="./image/weatherIcons/100.svg"
-                  alt=""
-                  width="18rem"
-                  height="18rem"
-                />
-              </div>
-              <div>晴</div>
-              <div>14~23℃</div>
-            </li>
-            <li class="weather_list">
-              <div>今天</div>
-              <div>
-                <img
-                  src="./image/weatherIcons/100.svg"
-                  alt=""
-                  width="18rem"
-                  height="18rem"
-                />
-              </div>
-              <div>晴</div>
-              <div>14~23℃</div>
-            </li>
-            <li class="weather_list">
-              <div>今天</div>
-              <div>
-                <img
-                  src="./image/weatherIcons/100.svg"
-                  alt=""
-                  width="18rem"
-                  height="18rem"
-                />
-              </div>
-              <div>晴</div>
-              <div>14~23℃</div>
-            </li>
-            <li class="weather_list">
-              <div>今天</div>
-              <div>
-                <img
-                  src="./image/weatherIcons/100.svg"
-                  alt=""
-                  width="18rem"
-                  height="18rem"
-                />
-              </div>
-              <div>晴</div>
-              <div>14~23℃</div>
-            </li>
-            <li class="weather_list">
-              <div>今天</div>
-              <div>
-                <img
-                  src="./image/weatherIcons/100.svg"
-                  alt=""
-                  width="18rem"
-                  height="18rem"
-                />
-              </div>
-              <div>晴</div>
-              <div>14~23℃</div>
-            </li>
-            <li class="weather_list">
-              <div>今天</div>
-              <div>
-                <img
-                  src="./image/weatherIcons/100.svg"
-                  alt=""
-                  width="18rem"
-                  height="18rem"
-                />
-              </div>
-              <div>晴</div>
-              <div>14~23℃</div>
-            </li>
-            <li class="weather_list">
-              <div>今天</div>
-              <div>
-                <img
-                  src="./image/weatherIcons/100.svg"
-                  alt=""
-                  width="18rem"
-                  height="18rem"
-                />
-              </div>
-              <div>晴</div>
-              <div>14~23℃</div>
-            </li>
-            <li class="weather_list">
-              <div>今天</div>
-              <div>
-                <img
-                  src="./image/weatherIcons/100.svg"
-                  alt=""
-                  width="18rem"
-                  height="18rem"
-                />
-              </div>
-              <div>晴</div>
-              <div>14~23℃</div>
-            </li>
-          </ul>
-        </div>
-        
+      <div class="fuetrue">
+        <ul>
+          <li v-for="(item, i) in weatherList" :key="i" class="weather_list">
+            <div>{{ item.date }}</div>
+          
+              <!-- <img
+                src="./image/weatherIcons/100.svg"
+                alt="Weather"
+                width="18rem"
+                height="18rem"
+              /> -->
+              <weather-img :url="item.icon" 
+                alt="Weather"
+                width="18rem"
+                height="18rem"></weather-img>
+            
+            <div>{{ item.weather }}</div>
+            <div>{{ item.tem }}</div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 // import {getCityId, getWeatherList} from '@/api/index'
-import axios from 'axios';
-
-const option = {
-  xAxis: {
-    type: "category",
-    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-  },
-  yAxis: {
-    type: "value",
-    max: "50",
-    min: "-10"
-  },
-  grid: {
-    top: "2%",
-    left: "2%",
-    right: "2%",
-    bottom: "10%",
-    containLabel: true
-  },
-  series: [
-    {
-      name: "high",
-      data: [15, 20, 24, 21, 15, 17, 26],
-      type: "line"
-    },
-    {
-      name: "low",
-      data: [9, 9, 9, 9, 9, 9, 9],
-      type: "line"
-    }
-  ]
-};
+import axios from "axios";
+import WeatherImag from "./components/WeatherImg.vue"
+import WeatherImg from './components/WeatherImg.vue';
 
 export default {
-  name: "App", 
-  data() { 
+  components: { WeatherImg },
+  name: "App",
+  data() {
     return {
       myChart: {},
-      city: '南昌',
-      cityId:'',
-      wendu: '23',
-      weather: '晴',
-      windy: '北风4~5级',
-      high: '20',
-      low: '14',
-      description: '南昌今天：天气晴，14~20度，北风4~5级。',
-      input:'',
-      // key:'787f3f931d0c462e86d189aab70510a1'
-    }
-  },
-  // comments:{
-  //   WeatherNowVue
-  // },
-  mounted() {
-    this.myChart = this.$echarts.init(this.$refs.container)
-    this.myChart.setOption(option)
-    window.addEventListener('resize', () => {
-      this.myChart.resize()
-    })
-  },
-  methods:{
-    getId(c){
-      /*console.log(city)
-      getWeatherInfo({
-        address:'北京市朝阳区阜通东大街6号',
-        city
-      })
-      axios.get(`http://wthrcdn.etouch.cn/weather_mini?city=${this.city}`)
-      axios.get(`http://wthrcdn.etouch.cn/weather_mini?key=4a094553258dbecfe35022033c9bf72a&&address='北京市朝阳区阜通东大街6号'&&city=${this.city}`)
-      axios.get(`https://devapi.qweather.com/v7/weather/now?location='北京'&key=${this.key}`)
-      .then(res => {
-        console.log(res);
-        resdata = res.data.data;
-        console.log(resdata)
-        this.wendu = resdata.wendu;
-        this.weather = resdata.forecast[0].type;
-        this.windy = resdata.forecast[0].fengxiang;
-        this.description = resdata.ganmao
-      })
-      .catch(err => console.log(err)) */
-      axios.get(`https://geoapi.qweather.com/v2/city/lookup`,{
-        params: {
-          key: '787f3f931d0c462e86d189aab70510a1',
-          location: c
+      city: "南昌",
+      cityId: "",
+      wendu: "23",
+      weather: "晴",
+      windy: "北风4~5级",
+      high: "20",
+      low: "14",
+      description: "南昌今天：天气晴，14~20度，北风4~5级。",
+      input: "",
+      options: [
+        {
+          label: "北京",
+          value: "北京"
         },
-        headers: {}
-      })
-      .then(res=>{
-        console.log(res)
-        this.cityId = res.data.location[0].id
-        this.city = res.data.location[0].name
-        console.log(res.data.location[0].id)
-        this.getWeatherInfo(res.data.location[0].id)
-      })
-      .catch(
-        err => {
-          console.log(err)
+        {
+          label: "南昌",
+          value: "南昌"
+        }
+      ],
+      weatherList: [
+        {
+          date: "今天",
+          weather: "晴",
+          icon: "100",
+          tem: "14~23℃"
+        },
+        {
+          date: "今天",
+          weather: "晴",
+          icon: "100",
+          tem: "14~23℃"
+        },
+        {
+          date: "今天",
+          weather: "晴",
+          icon: "100",
+          tem: "14~23℃"
+        },
+        {
+          date: "今天",
+          weather: "晴",
+          icon: "100",
+          tem: "14~23℃"
+        },
+        {
+          date: "今天",
+          weather: "晴",
+          icon: "100",
+          tem: "14~23℃"
+        },
+        {
+          date: "今天",
+          weather: "晴",
+          icon: "100",
+          tem: "14~23℃"
+        },
+        {
+          date: "今天",
+          weather: "晴",
+          icon: "100",
+          tem: "14~23℃"
+        }
+      ],
+      option: {
+        xAxis: {
+          type: "category",
+          data: [15, 20, 24, 21, 15, 17, 26]
+        },
+        yAxis: {
+          type: "value",
+          max: "20",
+          min: "0"
+        },
+        grid: {
+          top: "2%",
+          left: "2%",
+          right: "2%",
+          bottom: "10%",
+          containLabel: true
+        },
+        series: [
+          {
+            name: "high",
+            data: [],
+            type: "line"
+          }
+        ]
       }
-      )
+      // key:'787f3f931d0c462e86d189aab70510a1'
+    };
+  },
+  mounted() {
+    this.myChart = this.$echarts.init(this.$refs.container);
+    this.myChart.setOption(this.option);
+    window.addEventListener("resize", () => {
+      this.myChart.resize();
+    });
+  },
+  comments:{
+    WeatherImag
+  },
+  methods: {
+    // 城市id
+    getCityIdByName(city) {
+      axios
+        .get(`https://geoapi.qweather.com/v2/city/lookup`, {
+          params: {
+            key: "787f3f931d0c462e86d189aab70510a1",
+            location: city
+          },
+          headers: {}
+        })
+        .then(res => {
+          console.log(">>>>res", res);
+          this.cityId = res.data.location[0].id;
+          this.city = res.data.location[0].name;
+          this.getWeatherTimeInfo(this.cityId);
+          this.getWeatherDayInfo(this.cityId);
+          this.getWeatherWeekInfo(this.cityId);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
-    getWeatherInfo(id){
-      console.log('已收到ID：'+id+'正在查询天气')
-      axios.get('https://devapi.qweather.com/v7/weather/now',{
-        params:{
-          key: '787f3f931d0c462e86d189aab70510a1',
-          location: id
-        },
-        headers:{}
-      }).then(res=>{
-        console.log('通过id查询到天气信息')
-        console.log(res)
-        this.wendu = res.data.now.temp
-        this.weather = res.data.now.text
-        this.windy = res.data.now.windDir + res.data.now.windScale + '级'
-      }).catch(err => console.log(err))
+    // 时：天气信息 https://api.qweather.com/v7/weather/24h
+    getWeatherTimeInfo(id) {
+      console.log("已收到ID：" + id + "正在查询天气");
+      axios
+        .get("https://devapi.qweather.com/v7/weather/24h", {
+          params: {
+            key: "787f3f931d0c462e86d189aab70510a1",
+            location: id
+          },
+          headers: {}
+        })
+        .then(res => {
+          console.log("时", res);
+          const hourly = res.data.hourly;
+          const temp = hourly.map(item => Number(item.temp));
+          const fxTime = hourly.map(item => item.fxTime);
+          this.option.series.data = temp;
+          this.option.xAxis.data = fxTime;
+          this.option.yAxis.max = Math.max(hourly); // 获取温度的最大值
+          // this.option.yAxis.min = hourly.min; // 获取温度的最小值
+          console.log('this.option.series.data',this.option.series.data);
+          console.log('this.option',this.option);
+          this.$nextTick(() => {
+            this.renderEcharts()
+          })
+          // const min = daily.map(item => item.tempMin)
+          // this.wendu = res.data.now.temp
+          // this.weather = res.data.now.text
+          // this.windy = res.data.now.windDir + res.data.now.windScale + '级'
+        })
+        .catch(err => console.log(err));
     },
-    seach(){
-      const a = this.input
-      // console.log(a)
-      // this.city = a,
-      console.log(a)
-      this.getId(a)
-      // console.log('拿到cityID：'+this.cityId+'准备查询天气。')
-      // this.getWeatherInfo(this.cityId)
+    // 日：天气信息
+    getWeatherDayInfo(id) {
+      axios
+        .get("https://devapi.qweather.com/v7/weather/now", {
+          params: {
+            key: "787f3f931d0c462e86d189aab70510a1",
+            location: id
+          },
+          headers: {}
+        })
+        .then(res => {
+          console.log("日", res);
+          const daily = res.data.now
+
+          // const max = daily.map(item => item.tempMax)
+          // const min = daily.map(item => item.tempMin)
+          this.wendu = daily.temp
+          this.weather = daily.text
+          this.windy = daily.windDir + daily.windScale + '级'
+        })
+        .catch(err => console.log(err));
+    },
+    // 周：天气信息
+    getWeatherWeekInfo(id) {
+      axios
+        .get("https://devapi.qweather.com/v7/weather/7d", {
+          params: {
+            key: "787f3f931d0c462e86d189aab70510a1",
+            location: id
+          },
+          headers: {}
+        })
+        .then(res => {
+          console.log("周", res);
+          // 七天数据
+          const dList = res.data.daily 
+          for (let i in dList) {
+            this.weatherList[i].date = dList[i].fxDate
+            this.weatherList[i].weather = dList[i].textday
+            this.weatherList[i].icon = dList[i].iconDay
+            this.weatherList[i].tem = dList[i].tempMax + "~" + dList[i].tempMin + "度"
+            this.description = this.city + '今天：' + this.weather + this.wendu + "℃，" + this.windy + '。'
+          }
+          // tempMax
+          // tempMin
+          // this.wendu = res.data.now.temp;
+          // this.weather = res.data.now.text;
+          // this.windy = res.data.now.windDir + res.data.now.windScale + "级";
+        })
+        .catch(err => console.log(err));
+    },
+    handleSearch() {
+      this.getCityIdByName(this.input);
+    },
+    renderEcharts () {
+      console.log('12');
+      this.myChart.setOption(this.option);
     }
   },
   // created(){
-  //   this.getHandle()
+  //   this.getCityIdByName('南昌')
   // }
 };
 </script>
 
-<style> 
-
-</style>
+<style></style>
