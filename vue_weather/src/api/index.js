@@ -27,7 +27,7 @@ export function getCityId(location){
 }
 
 // 根据城市ID，查询城市实时天气
-export function getWeatherList (location){
+export function getWList (location){
   return request({
     method: 'GET',
     url: '/v7/weather/now',
@@ -39,10 +39,23 @@ export function getWeatherList (location){
 }
 
 // 根据城市ID，获取24小时天气
-export function getHouseweather(location){
+export function getWTimeInfo(location){
   return request({
     method: 'GET',
     url: '/v7/weather/24h',
+    params:{
+      key,
+      location 
+    },
+    headers:{}
+  })
+}
+
+// 根据城市ID，获取未来7天天气
+export function getWWeekInfo(location){
+  return request({
+    method: 'GET',
+    url: '/v7/weather/7d',
     params:{
       key,
       location 

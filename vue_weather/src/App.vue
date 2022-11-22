@@ -61,8 +61,8 @@
 </template>
 
 <script>
-// import {getCityId, getWeatherList} from '@/api/index'
-import axios from "axios";
+import {getCityId,getWList,getWTimeInfo,getWWeekInfo} from '@/api/index'
+// import axios from "axios";
 import WeatherImag from "./components/WeatherImg.vue"
 import WeatherImg from './components/WeatherImg.vue';
 
@@ -169,14 +169,15 @@ export default {
   methods: {
     // 城市id
     getCityIdByName(city) {
-      axios
-        .get(`https://geoapi.qweather.com/v2/city/lookup`, {
-          params: {
-            key: "787f3f931d0c462e86d189aab70510a1",
-            location: city
-          },
-          headers: {}
-        })
+      // axios
+      //   .get('https://geoapi.qweather.com/v2/city/lookup', {
+      //     params: {
+      //       key: "787f3f931d0c462e86d189aab70510a1",
+      //       location: city
+      //     },
+      //     headers: {}
+      //   })
+      getCityId(city)
         .then(res => {
           // console.log(">>>>res", res);
           this.cityId = res.data.location[0].id;
@@ -192,14 +193,15 @@ export default {
     // 时：天气信息 https://api.qweather.com/v7/weather/24h
     getWeatherTimeInfo(id) {
       // console.log("已收到ID：" + id + "正在查询天气");
-      axios
-        .get("https://devapi.qweather.com/v7/weather/24h", {
-          params: {
-            key: "787f3f931d0c462e86d189aab70510a1",
-            location: id
-          },
-          headers: {}
-        })
+      // axios
+      //   .get("https://devapi.qweather.com/v7/weather/24h", {
+      //     params: {
+      //       key: "787f3f931d0c462e86d189aab70510a1",
+      //       location: id
+      //     },
+      //     headers: {}
+      //   })
+      getWTimeInfo(id)
         .then(res => {
           console.log("时", res);
           const hourly = res.data.hourly;
@@ -207,7 +209,8 @@ export default {
           const fxTime = hourly.map(item => item.fxTime.slice(11,16));
           this.option.series[0].data = temp;
           // this.option.xAxis.data = fxTime;
-          for (let i in this.option.xAxis.data) {
+          for (let i in this.option.xAxis.data) 
+          { // 控制显示的数据量不超过原本数组的长度
             this.option.xAxis.data[i] = fxTime[i]
           }
           console.log("this.option.xAxis.data",this.option.xAxis.data)
@@ -225,14 +228,15 @@ export default {
     },
     // 日：天气信息
     getWeatherDayInfo(id) {
-      axios
-        .get("https://devapi.qweather.com/v7/weather/now", {
-          params: {
-            key: "787f3f931d0c462e86d189aab70510a1",
-            location: id
-          },
-          headers: {}
-        })
+      // axios
+      //   .get("https://devapi.qweather.com/v7/weather/now", {
+      //     params: {
+      //       key: "787f3f931d0c462e86d189aab70510a1",
+      //       location: id
+      //     },
+      //     headers: {}
+      //   })
+      getWList(id)
         .then(res => {
           console.log("日", res);
           const daily = res.data.now
@@ -246,14 +250,15 @@ export default {
     },
     // 周：天气信息
     getWeatherWeekInfo(id) {
-      axios
-        .get("https://devapi.qweather.com/v7/weather/7d", {
-          params: {
-            key: "787f3f931d0c462e86d189aab70510a1",
-            location: id
-          },
-          headers: {}
-        })
+      // axios
+      //   .get("https://devapi.qweather.com/v7/weather/7d", {
+      //     params: {
+      //       key: "787f3f931d0c462e86d189aab70510a1",
+      //       location: id
+      //     },
+      //     headers: {}
+      //   })
+      getWWeekInfo(id)
         .then(res => {
           // console.log("周", res);
           // 七天数据
