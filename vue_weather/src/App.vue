@@ -20,8 +20,6 @@
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </div>
-      <!-- <div class="leftjiantou"></div> -->
-      <!-- <span class="iconfont icon-zuojiantou" style="color: aliceblue;"></span> -->
       <!-- 天气内容 -->
       <h3>{{city}}</h3>
       <weather-img 
@@ -38,28 +36,16 @@
         <span>|</span>
         <h4 class="windy">{{ windy }}</h4>
       </div>
-      <!-- 天气情况说明 -->
+      <!-- 天气情况说明,后面还可以改成各种指数建议 -->
       <p class="description">{{ description }}</p>
-      <!-- <WeatherNowVue
-        :weatherList = 'weatherList'
-        ></WeatherNowVue> -->
-      <div id="container" style="height: 15rem" ref="container"></div>
-
-      <!-- 未来几天天气预报 -->
-      <!-- <div class="fuetrue" style="height: 10rem;"> -->
-      <!-- </div> -->
+      
+        <!-- echarts图表 -->
+      <div id="container" style="height: 12rem" ref="container"></div>
 
       <div class="fuetrue">
         <ul>
           <li v-for="(item, i) in weatherList" :key="i" class="weather_list">
             <div>{{ item.date }}</div>
-          
-              <!-- <img
-                src="./image/weatherIcons/100.svg"
-                alt="Weather"
-                width="18rem"
-                height="18rem"
-              /> -->
               <weather-img 
                 :url="item.icon"
                 alt="Weather"
@@ -96,16 +82,6 @@ export default {
       low: "14",
       description: "南昌今天：天气晴，14~20度，北风4~5级。",
       input: "",
-      options: [
-        {
-          label: "北京",
-          value: "北京"
-        },
-        {
-          label: "南昌",
-          value: "南昌"
-        }
-      ],
       weatherList: [
         {
           date: "今天",
@@ -152,26 +128,28 @@ export default {
       ],
       option: {
         xAxis: {
-          type: "category",
-          data: [15, 20, 24, 21, 15, 17, 26]
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue']
         },
         yAxis: {
-          type: "value",
-          max: "20",
-          min: "0"
+          type: 'value'
         },
         grid: {
-          top: "2%",
-          left: "2%",
-          right: "2%",
-          bottom: "10%",
-          containLabel: true
+          top: '15%',
+          left: '2%',
+          right: '3%',
+          bottom: '20%',
+          // containLabel: true
         },
         series: [
           {
-            name: "high",
-            data: [],
-            type: "line"
+            data: [15, 23, 22, 21, 13, 14, 26],
+            type: 'line',
+            symbolSize: 10,
+            label: {
+              show: true,
+              position: 'top'
+            }
           }
         ]
       }
@@ -200,7 +178,7 @@ export default {
           headers: {}
         })
         .then(res => {
-          console.log(">>>>res", res);
+          // console.log(">>>>res", res);
           this.cityId = res.data.location[0].id;
           this.city = res.data.location[0].name;
           this.getWeatherTimeInfo(this.cityId);
@@ -213,7 +191,7 @@ export default {
     },
     // 时：天气信息 https://api.qweather.com/v7/weather/24h
     getWeatherTimeInfo(id) {
-      console.log("已收到ID：" + id + "正在查询天气");
+      // console.log("已收到ID：" + id + "正在查询天气");
       axios
         .get("https://devapi.qweather.com/v7/weather/24h", {
           params: {
@@ -227,10 +205,12 @@ export default {
           const hourly = res.data.hourly;
           const temp = hourly.map(item => Number(item.temp));
           const fxTime = hourly.map(item => item.fxTime.slice(11,16));
-          this.option.series.data = temp;
-          this.option.xAxis.data = fxTime;
-          this.option.yAxis.max = Math.max(hourly); // 获取温度的最大值
-          // this.option.yAxis.min = hourly.min; // 获取温度的最小值
+          this.option.series[0].data = temp;
+          // this.option.xAxis.data = fxTime;
+          for (let i in this.option.xAxis.data) {
+            this.option.xAxis.data[i] = fxTime[i]
+          }
+          console.log("this.option.xAxis.data",this.option.xAxis.data)
           console.log('this.option.series.data',this.option.series.data);
           console.log('this.option',this.option);
           this.$nextTick(() => {
@@ -256,13 +236,11 @@ export default {
         .then(res => {
           console.log("日", res);
           const daily = res.data.now
-
-          // const max = daily.map(item => item.tempMax)
-          // const min = daily.map(item => item.tempMin)
           this.wendu = daily.temp
           this.weatherIcon = daily.icon
           this.weather = daily.text
           this.windy = daily.windDir + daily.windScale + '级'
+          this.description = this.city + '今天：' + this.weather + this.wendu + "℃，" + this.windy + '。'
         })
         .catch(err => console.log(err));
     },
@@ -277,7 +255,7 @@ export default {
           headers: {}
         })
         .then(res => {
-          console.log("周", res);
+          // console.log("周", res);
           // 七天数据
           let dList = res.data.daily 
           for (let i in dList) {
@@ -285,7 +263,6 @@ export default {
             this.weatherList[i].weather = dList[i].textDay
             this.weatherList[i].icon = dList[i].iconDay
             this.weatherList[i].tem = dList[i].tempMax + "~" + dList[i].tempMin + "°"
-            this.description = this.city + '今天：' + this.weather + this.wendu + "℃，" + this.windy + '。'
           }
           // tempMax
           // tempMin
@@ -299,13 +276,13 @@ export default {
       this.getCityIdByName(this.input);
     },
     renderEcharts () {
-      console.log('12');
+      // console.log('12');
       this.myChart.setOption(this.option);
     }
   },
-  // created(){
-  //   this.getCityIdByName('南昌')
-  // }
+  created(){
+    this.getCityIdByName(this.city)
+  }
 };
 </script>
 

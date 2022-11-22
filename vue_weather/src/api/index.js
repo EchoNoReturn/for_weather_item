@@ -26,7 +26,7 @@ export function getCityId(location){
   })
 }
 
-// 根据城市ID，查询城市天气
+// 根据城市ID，查询城市实时天气
 export function getWeatherList (location){
   return request({
     method: 'GET',
